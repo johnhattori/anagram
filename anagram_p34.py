@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
+'''This program takes a word from user and returns all anagrams of that word found in /users/abrick/resources/american-english-insane dictionary'''
 
 def dump_dictionary():
-
     import pickle
     outf = open('dict.pkl','wb')
-    
-
     word_dict={}
     fh=open('dictionary', 'r')
+
     for line in fh:
         w=line.strip('\n')
         wl=len(w)
@@ -20,8 +19,7 @@ def dump_dictionary():
                word_dict[wl][kw]=[w]
         else:
             word_dict[wl]={kw:[w]}
-            
-
+      
     pickle.dump(word_dict,outf)
     outf.close()
 
@@ -49,7 +47,17 @@ while 1:
     result = []
     word_letters = sorted(input_word)
 
+    try:
+        a=word_dict[len(input_word)]
+        try:
+            a=word_dict[len(input_word)][word_letters[0]]
+        except KeyError:
+            continue
+    except KeyError:
+        continue
+               
     for word in word_dict[len(input_word)][word_letters[0]]:
+ 
         if sorted(word) == word_letters:
             result.append(word)
     for r in result:
